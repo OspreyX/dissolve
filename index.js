@@ -74,10 +74,10 @@ Dissolve.prototype._transform = function _transform(input, encoding, done) {
       this.jobs.splice(0);
       if (job.name) {
         this.jobs.push({type: "down", into: job.name});
-        job.fn.call(this, this.vars);
+        this.jobs.push({type: "tap", args: job.args, fn: job.fn});
         this.jobs.push({type: "up"});
       } else {
-        job.fn.call(this, this.vars);
+        job.fn.apply(this, job.args || []);
       }
       Array.prototype.splice.apply(this.jobs, [this.jobs.length, 0].concat(jobs));
 
